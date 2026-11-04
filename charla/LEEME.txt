@@ -1,0 +1,5 @@
+Put the slides PDF here with this exact name:
+ia-client-side-inp.pdf
+
+(Export it from the Slides artifact: Download > PDF.)
+Then delete this file.
