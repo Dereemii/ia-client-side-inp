@@ -45,8 +45,7 @@ To publish your own copy with GitHub Pages: Settings → Pages → *Deploy from 
 - **An internet connection** the first time you open Demo 2: the library is loaded from
   jsDelivr and the model from Hugging Face. After that it stays in the browser cache.
   Download size is about 85 MB with WASM and about 330 MB with WebGPU.
-- Use the **"Preparar modelos"** ("Prepare models") button in Demo 2 to preload them before
-  comparing modes.
+- Use the **"Prepare models"** button in Demo 2 to preload them before comparing modes.
 
 ## Things worth knowing
 
@@ -76,7 +75,8 @@ To publish your own copy with GitHub Pages: Settings → Pages → *Deploy from 
 - The home page is in Spanish and English. The ES/EN button in the top bar switches the
   language and remembers it in the browser; the first time, it uses the browser's language.
   The texts live in the `I18N` dictionary at the end of `index.html`.
-- The demos themselves are currently in Spanish only.
+- Both demos are also in Spanish and English and share the same language setting: they open in the language you picked on the home page, and each has its own ES/EN button.
+- The model (`distilgpt2`) is trained on English, so Demo 2 gives better text with English prompts. The default prompt changes with the language.
 - The home page links to the talk slides at `charla/ia-client-side-inp.pdf`.
 
 ## Credits

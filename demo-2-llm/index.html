@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="theme-color" content="#15172E">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Demo 2: LLM en el navegador</title>
+<title data-i18n="title">Demo 2: LLM en el navegador</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
 <style>
@@ -207,13 +207,20 @@
   a.home:hover { color: var(--accent-primary); }
   .tb-right a.who { text-decoration: none; }
   .tb-right a.who:hover { color: var(--accent-primary); }
+
+  @media (max-width: 440px) { .hide-s { display: none; } }
+  /* ---------- Selector de idioma ---------- */
+  .lang-btn { margin-left: auto; margin-right: 12px; background: none; border: 2px solid var(--border); color: var(--accent-primary); border-radius: 10px; padding: 3px 10px; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 1px; line-height: 1.3; }
+  .lang-btn:hover { border-color: var(--accent-primary); }
+  .lang-btn:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; }
 </style>
 </head>
 <body>
 <div class="win">
  <div class="frame">
   <div class="titlebar">
-    <div class="tb-left"><div class="dots"><i></i><i></i><i></i></div><span>JSConf MX<span class="hide-m"> · 29 Oct</span> · Guadalajara</span></div>
+    <div class="tb-left"><div class="dots"><i></i><i></i><i></i></div><span>JSConf MX<span class="hide-m"> · 29 Oct</span><span class="hide-s"> · Guadalajara</span></span></div>
+    <button class="lang-btn" id="langBtn" type="button" aria-label="Switch to English">EN</button>
     <div class="tb-right"><a class="who" href="../#quien-soy">Leslie Herrera · Dereemii</a>
       <span class="ctl" aria-hidden="true">
         <svg viewBox="0 0 24 24"><path d="M3 19h10" stroke="currentColor" stroke-width="2" fill="none"/></svg>
@@ -226,28 +233,28 @@
   <div class="content">
     <header>
       <div>
-        <a class="home" href="../">← Inicio</a>
-        <p class="eyebrow">DEMO EN VIVO</p>
-        <h1>Un LLM real, <em>corriendo en tu navegador</em></h1>
-        <p class="sub">Compara dónde corre la inferencia y mira si el punto se congela.</p>
-        <p class="model"><span class="chip">MODELO</span> distilgpt2 · Hugging Face<span class="hide-m"> · predice la siguiente palabra</span></p>
+        <a class="home" href="../" data-i18n="home">← Inicio</a>
+        <p class="eyebrow" data-i18n="eyebrow">DEMO EN VIVO</p>
+        <h1 data-i18n-html="h1">Un LLM real, <em>corriendo en tu navegador</em></h1>
+        <p class="sub" data-i18n="sub">Compara dónde corre la inferencia y mira si el punto se congela.</p>
+        <p class="model"><span class="chip" data-i18n="chip">MODELO</span> distilgpt2 · Hugging Face<span class="hide-m" data-i18n="predicts"> · predice la siguiente palabra</span></p>
       </div>
       <div class="art"></div>
     </header>
 
     <div class="main">
       <div class="left">
-        <div class="modes" role="group" aria-label="Modo de ejecución">
-          <button class="mode-btn active" data-mode="main" data-device="wasm" data-worker="0" data-label="Main thread"><span class="radio"></span><span class="nm">Main thread</span><small class="ds">bloquea el hilo principal</small></button>
-          <button class="mode-btn" data-mode="worker-wasm" data-device="wasm" data-worker="1" data-label="Worker + WASM"><span class="radio"></span><span class="nm">Worker + WASM</span><small class="ds">fuera del hilo, CPU</small></button>
-          <button class="mode-btn" data-mode="worker-webgpu" data-device="webgpu" data-worker="1" data-label="Worker + WebGPU"><span class="radio"></span><span class="nm">Worker + WebGPU</span><small class="ds">fuera del hilo, GPU</small></button>
+        <div class="modes" role="group" data-i18n-attr="aria-label:modes.aria" aria-label="Modo de ejecución">
+          <button class="mode-btn active" data-mode="main" data-device="wasm" data-worker="0" data-label="Main thread"><span class="radio"></span><span class="nm">Main thread</span><small class="ds"><span data-i18n="ds.main">bloquea el hilo principal</span></small></button>
+          <button class="mode-btn" data-mode="worker-wasm" data-device="wasm" data-worker="1" data-label="Worker + WASM"><span class="radio"></span><span class="nm">Worker + WASM</span><small class="ds"><span data-i18n="ds.wasm">fuera del hilo, CPU</span></small></button>
+          <button class="mode-btn" data-mode="worker-webgpu" data-device="webgpu" data-worker="1" data-label="Worker + WebGPU"><span class="radio"></span><span class="nm">Worker + WebGPU</span><small class="ds"><span data-i18n="ds.gpu">fuera del hilo, GPU</span></small></button>
         </div>
         <div class="field-label">PROMPT</div>
         <textarea id="promptField">La inteligencia artificial en el navegador</textarea>
         <div class="row">
-          <button class="action" id="generateBtn">Generar</button>
-          <button class="ghost" id="warmupBtn">Preparar modelos</button>
-          <button class="ghost" id="clearBtn">Limpiar</button>
+          <button class="action" id="generateBtn" data-i18n="generate">Generar</button>
+          <button class="ghost" id="warmupBtn" data-i18n="warmup">Preparar modelos</button>
+          <button class="ghost" id="clearBtn" data-i18n="clear">Limpiar</button>
         </div>
         <div class="status" id="statusLine">Listo. Elige un modo y presiona Generar.</div>
       </div>
@@ -258,19 +265,19 @@
           <div class="track-box"><div class="track-dot" id="trackDot"></div></div>
           <div class="fps"><span class="l">FPS</span><span id="fpsVal">60</span></div>
         </div>
-        <p class="hint">Si el punto se congela o salta, el main thread estuvo ocupado.</p>
+        <p class="hint" data-i18n="hint">Si el punto se congela o salta, el main thread estuvo ocupado.</p>
         <hr class="hr m">
         <div class="minrow">
-          <div class="minbox"><div class="label">FPS MÍNIMO (ÚLTIMA CORRIDA)</div><div class="value" id="minFpsVal">—</div></div>
-          <div class="minbox"><div class="label">CONGELADO MÁX.</div><div class="value" id="freezeVal">—</div></div>
+          <div class="minbox"><div class="label" data-i18n="m.minfps">FPS MÍNIMO (ÚLTIMA CORRIDA)</div><div class="value" id="minFpsVal">—</div></div>
+          <div class="minbox"><div class="label" data-i18n="m.freeze">CONGELADO MÁX.</div><div class="value" id="freezeVal">—</div></div>
         </div>
         <hr class="hr m">
         <div class="output" id="outputBox">—</div>
         <hr class="hr m">
         <div class="metrics">
-          <div class="metric"><div class="label">CARGA DEL MODELO</div><div class="value" id="loadVal">—</div></div>
-          <div class="metric"><div class="label">GENERACIÓN</div><div class="value" id="genVal">—</div></div>
-          <div class="metric"><div class="label">TOKENS / SEG</div><div class="value" id="tpsVal">—</div></div>
+          <div class="metric"><div class="label" data-i18n="m.load">CARGA DEL MODELO</div><div class="value" id="loadVal">—</div></div>
+          <div class="metric"><div class="label" data-i18n="m.gen">GENERACIÓN</div><div class="value" id="genVal">—</div></div>
+          <div class="metric"><div class="label" data-i18n="m.tps">TOKENS / SEG</div><div class="value" id="tpsVal">—</div></div>
         </div>
       </div>
     </div>
@@ -278,6 +285,112 @@
  </div>
 </div>
 
+<script>
+(function () {
+  var I18N = {
+  "es": {
+    "lang.aria": "Switch to English",
+    "lang.label": "EN",
+    "title": "Demo 2: LLM en el navegador",
+    "home": "← Inicio",
+    "eyebrow": "DEMO EN VIVO",
+    "h1": "Un LLM real, <em>corriendo en tu navegador</em>",
+    "sub": "Compara dónde corre la inferencia y mira si el punto se congela.",
+    "chip": "MODELO",
+    "predicts": " · predice la siguiente palabra",
+    "modes.aria": "Modo de ejecución",
+    "ds.main": "bloquea el hilo principal",
+    "ds.wasm": "fuera del hilo, CPU",
+    "ds.gpu": "fuera del hilo, GPU",
+    "ds.nogpu": "no disponible en este navegador",
+    "webgpu.title": "WebGPU no disponible en este navegador",
+    "prompt.default": "La inteligencia artificial en el navegador",
+    "generate": "Generar",
+    "warmup": "Preparar modelos",
+    "clear": "Limpiar",
+    "hint": "Si el punto se congela o salta, el main thread estuvo ocupado.",
+    "m.minfps": "FPS MÍNIMO (ÚLTIMA CORRIDA)",
+    "m.freeze": "CONGELADO MÁX.",
+    "m.load": "CARGA DEL MODELO",
+    "m.gen": "GENERACIÓN",
+    "m.tps": "TOKENS / SEG",
+    "badge.min": "· mín {n} fps",
+    "status.ready": "Listo. Elige un modo y presiona Generar.",
+    "status.generating": "Generando...",
+    "status.preparing": "Preparando...",
+    "status.done": "Listo.",
+    "status.error": "Error: ",
+    "status.failed": "Fallaron: ",
+    "out.fail": "(no se pudo generar — ver estado arriba)",
+    "err.worker": "no se pudo cargar transformers-worker.js — ¿está en la misma carpeta que este HTML?"
+  },
+  "en": {
+    "lang.aria": "Cambiar a español",
+    "lang.label": "ES",
+    "title": "Demo 2: LLM in the browser",
+    "home": "← Home",
+    "eyebrow": "LIVE DEMO",
+    "h1": "A real LLM, <em>running in your browser</em>",
+    "sub": "Compare where inference runs and see whether the dot freezes.",
+    "chip": "MODEL",
+    "predicts": " · predicts the next word",
+    "modes.aria": "Execution mode",
+    "ds.main": "blocks the main thread",
+    "ds.wasm": "off the thread, CPU",
+    "ds.gpu": "off the thread, GPU",
+    "ds.nogpu": "not available in this browser",
+    "webgpu.title": "WebGPU is not available in this browser",
+    "prompt.default": "Artificial intelligence in the browser",
+    "generate": "Generate",
+    "warmup": "Prepare models",
+    "clear": "Clear",
+    "hint": "If the dot freezes or jumps, the main thread was busy.",
+    "m.minfps": "MIN FPS (LAST RUN)",
+    "m.freeze": "MAX FREEZE",
+    "m.load": "MODEL LOAD",
+    "m.gen": "GENERATION",
+    "m.tps": "TOKENS / SEC",
+    "badge.min": "· min {n} fps",
+    "status.ready": "Ready. Pick a mode and press Generate.",
+    "status.generating": "Generating...",
+    "status.preparing": "Preparing...",
+    "status.done": "Done.",
+    "status.error": "Error: ",
+    "status.failed": "Failed: ",
+    "out.fail": "(could not generate — see status above)",
+    "err.worker": "could not load transformers-worker.js — is it in the same folder as this HTML?"
+  }
+};
+  var lang;
+  try { lang = localStorage.getItem('lang'); } catch (e) {}
+  if (lang !== 'es' && lang !== 'en') lang = /^en/i.test(navigator.language || '') ? 'en' : 'es';
+  var listeners = [];
+  function tFor(l, k) { var d = I18N[l] || I18N.es; return d[k] !== undefined ? d[k] : I18N.es[k]; }
+  function t(k) { return tFor(lang, k); }
+  function apply(l) {
+    lang = l;
+    document.documentElement.setAttribute('lang', l);
+    document.querySelectorAll('[data-i18n]').forEach(function (e) { e.textContent = t(e.getAttribute('data-i18n')); });
+    document.querySelectorAll('[data-i18n-html]').forEach(function (e) { e.innerHTML = t(e.getAttribute('data-i18n-html')); });
+    document.querySelectorAll('[data-i18n-attr]').forEach(function (e) {
+      e.getAttribute('data-i18n-attr').split(';').forEach(function (pair) {
+        var i = pair.indexOf(':'); e.setAttribute(pair.slice(0, i), t(pair.slice(i + 1)));
+      });
+    });
+    var b = document.getElementById('langBtn');
+    if (b) { b.textContent = t('lang.label'); b.setAttribute('aria-label', t('lang.aria')); }
+    listeners.forEach(function (fn) { fn(l); });
+  }
+  window.i18n = { t: t, tFor: tFor, lang: function () { return lang; }, onChange: function (fn) { listeners.push(fn); } };
+  var btn = document.getElementById('langBtn');
+  if (btn) btn.addEventListener('click', function () {
+    var next = lang === 'es' ? 'en' : 'es';
+    try { localStorage.setItem('lang', next); } catch (e) {}
+    apply(next);
+  });
+  apply(lang);
+})();
+</script>
 <script type="module">
   const MODEL_ID = "Xenova/distilgpt2";
   const LIB_URL = "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.2";
@@ -314,7 +427,7 @@
       if (r) { r(e.data); delete pendingResolvers[e.data.id]; }
     };
     worker.onerror = (e) => {
-      const detail = (e && (e.message || e.filename)) ? (e.message + (e.filename ? " (" + e.filename + ":" + e.lineno + ")" : "")) : "no se pudo cargar transformers-worker.js — ¿está en la misma carpeta que este HTML?";
+      const detail = (e && (e.message || e.filename)) ? (e.message + (e.filename ? " (" + e.filename + ":" + e.lineno + ")" : "")) : i18n.t("err.worker");
       failAllPending("Worker error: " + detail);
     };
     return worker;
@@ -357,8 +470,10 @@
   const webgpuBtn = document.querySelector('[data-mode="worker-webgpu"]');
   if (!("gpu" in navigator)) {
     webgpuBtn.disabled = true;
-    webgpuBtn.title = "WebGPU no disponible en este navegador";
-    webgpuBtn.querySelector("small").textContent = "no disponible en este navegador";
+    webgpuBtn.title = i18n.t("webgpu.title");
+    const gpuNote = webgpuBtn.querySelector("small [data-i18n]");
+    gpuNote.setAttribute("data-i18n", "ds.nogpu");
+    gpuNote.textContent = i18n.t("ds.nogpu");
   }
 
   modeBtns.forEach((btn) => {
@@ -399,13 +514,19 @@
     freezeVal.style.color = colorForFps(minFps);
     let badge = btn.querySelector(".badge");
     if (!badge) { badge = document.createElement("span"); badge.className = "badge"; btn.querySelector("small").appendChild(badge); }
-    badge.textContent = "· mín " + minFps + " fps";
+    badge.dataset.fps = minFps;
+    badge.textContent = i18n.t("badge.min").replace("{n}", minFps);
     badge.style.color = colorForFps(minFps);
   }
 
-  function setStatus(text, cls) {
-    statusLine.textContent = text;
-    statusLine.className = "status" + (cls ? " " + cls : "");
+  let statusState = { key: "status.ready", cls: "", extra: "" };
+  function renderStatus() {
+    statusLine.textContent = i18n.t(statusState.key) + (statusState.extra || "");
+    statusLine.className = "status" + (statusState.cls ? " " + statusState.cls : "");
+  }
+  function setStatus(key, cls, extra) {
+    statusState = { key, cls: cls || "", extra: extra || "" };
+    renderStatus();
   }
 
   async function generate(mode, { silent } = {}) {
@@ -414,7 +535,7 @@
     const prompt = promptField.value.trim() || "Hola";
     generateBtn.disabled = true;
     warmupBtn.disabled = true;
-    if (!silent) { setStatus("Generando...", "warn"); startRecording(); }
+    if (!silent) { setStatus("status.generating", "warn"); startRecording(); }
 
     let result;
     try {
@@ -431,8 +552,8 @@
 
     if (!result.ok) {
       if (!silent) {
-        setStatus("Error: " + result.error, "bad");
-        outputBox.textContent = "(no se pudo generar — ver estado arriba)";
+        setStatus("status.error", "bad", result.error);
+        outputBox.textContent = i18n.t("out.fail");
       }
       return result;
     }
@@ -443,7 +564,7 @@
       genVal.textContent = Math.round(result.genMs) + "ms";
       const tps = (MAX_NEW_TOKENS / (result.genMs / 1000)).toFixed(1);
       tpsVal.textContent = tps;
-      setStatus("Listo.", "good");
+      setStatus("status.done", "good");
     }
     return result;
   }
@@ -455,7 +576,7 @@
     loadVal.textContent = "—"; genVal.textContent = "—"; tpsVal.textContent = "—";
     minFpsVal.textContent = "—"; freezeVal.textContent = "—"; minFpsVal.style.color = ""; freezeVal.style.color = "";
     document.querySelectorAll(".badge").forEach((b) => b.remove());
-    setStatus("Listo. Elige un modo y presiona Generar.", "");
+    setStatus("status.ready", "");
     promptField.focus();
   });
   generateBtn.addEventListener("click", () => generate(currentMode));
@@ -466,18 +587,29 @@
     const failed = [];
     for (const btn of modeBtns) {
       if (btn.disabled) continue;
-      setStatus("Preparando...", "warn");
+      setStatus("status.preparing", "warn");
       const r = await generate(btn, { silent: true });
       if (!r.ok) failed.push(btn.textContent.trim().split("\n")[0] + ": " + r.error);
     }
     if (failed.length) {
-      setStatus("Fallaron: " + failed.join(" | "), "bad");
+      setStatus("status.failed", "bad", failed.join(" | "));
     } else {
-      setStatus("Listo.", "good");
+      setStatus("status.done", "good");
     }
     warmupBtn.disabled = false;
     generateBtn.disabled = false;
   });
+
+  // ---------- Idioma: re-renderiza lo dinámico cuando cambia ----------
+  const promptDefaults = ["es", "en"].map((l) => i18n.tFor(l, "prompt.default"));
+  function onLang() {
+    renderStatus();
+    document.querySelectorAll(".badge").forEach((b) => { b.textContent = i18n.t("badge.min").replace("{n}", b.dataset.fps); });
+    if (webgpuBtn.disabled) webgpuBtn.title = i18n.t("webgpu.title");
+    if (promptDefaults.includes(promptField.value.trim())) promptField.value = i18n.t("prompt.default");
+  }
+  i18n.onChange(onLang);
+  onLang();
 
   // ---------- rAF-driven dot: shows main-thread freezes honestly ----------
   const dot = document.getElementById("trackDot");

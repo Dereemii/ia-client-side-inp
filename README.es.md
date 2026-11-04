@@ -43,7 +43,7 @@ las demos quedan en `https://<usuario>.github.io/<repo>/`, ya con HTTPS.
   lo soporta, usa el modo *Worker + WASM*: funciona sin GPU.
 - **Conexión a internet** la primera vez en la demo 2: la librería se carga desde jsDelivr y el
   modelo desde Hugging Face. Después queda en caché del navegador.
-- Usa el botón **"Preparar modelos"** de la demo 2 para precargarlos antes de comparar modos.
+- Usa el botón **"Preparar modelos"** ("Prepare models" en inglés) de la demo 2 para precargarlos antes de comparar modos.
 
 ## Cosas que vale la pena saber
 
@@ -82,5 +82,7 @@ Las ilustraciones de `assets/` son obra personal de la autora y **no** están cu
 
 ## Presentación y idioma
 
+- Las dos demos también están en español e inglés y comparten el mismo idioma: se abren en el que elegiste en la portada y cada una tiene su botón ES/EN.
+- El modelo (`distilgpt2`) está entrenado en inglés, así que la demo 2 genera mejor texto con prompts en inglés. El prompt por defecto cambia con el idioma.
 - La portada enlaza al PDF de la charla en `charla/ia-client-side-inp.pdf` (botón del hero y enlace "Charla" del menú). 
 - La portada está en español e inglés. El botón ES/EN de la barra cambia el idioma y lo recuerda en el navegador; la primera vez usa el idioma del navegador. Los textos viven en el diccionario `I18N` al final de `index.html`.

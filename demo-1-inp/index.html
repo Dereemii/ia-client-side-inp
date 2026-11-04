@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="theme-color" content="#15172E">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Demo 1: INP en vivo</title>
+<title data-i18n="title">Demo 1: INP en vivo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
 <style>
@@ -180,13 +180,20 @@
   a.home:hover { color: var(--accent-primary); }
   .tb-right a.who { text-decoration: none; }
   .tb-right a.who:hover { color: var(--accent-primary); }
+
+  @media (max-width: 440px) { .hide-s { display: none; } }
+  /* ---------- Selector de idioma ---------- */
+  .lang-btn { margin-left: auto; margin-right: 12px; background: none; border: 2px solid var(--border); color: var(--accent-primary); border-radius: 10px; padding: 3px 10px; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 1px; line-height: 1.3; }
+  .lang-btn:hover { border-color: var(--accent-primary); }
+  .lang-btn:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; }
 </style>
 </head>
 <body>
 <div class="win">
  <div class="frame">
   <div class="titlebar">
-    <div class="tb-left"><div class="dots"><i></i><i></i><i></i></div><span>JSConf MX<span class="hide-m"> · 29 Oct</span> · Guadalajara</span></div>
+    <div class="tb-left"><div class="dots"><i></i><i></i><i></i></div><span>JSConf MX<span class="hide-m"> · 29 Oct</span><span class="hide-s"> · Guadalajara</span></span></div>
+    <button class="lang-btn" id="langBtn" type="button" aria-label="Switch to English">EN</button>
     <div class="tb-right"><a class="who" href="../#quien-soy">Leslie Herrera · Dereemii</a>
       <span class="ctl" aria-hidden="true">
         <svg viewBox="0 0 24 24"><path d="M3 19h10" stroke="currentColor" stroke-width="2" fill="none"/></svg>
@@ -200,29 +207,29 @@
   <div class="content">
     <header>
       <div>
-        <a class="home" href="../">← Inicio</a>
-        <p class="eyebrow">DEMO EN VIVO</p>
-        <h1>Lo que le hace la inferencia <em>a tu INP</em></h1>
-        <p class="sub">Compara dónde corre el trabajo y observa el INP al escribir.</p>
+        <a class="home" href="../" data-i18n="home">← Inicio</a>
+        <p class="eyebrow" data-i18n="eyebrow">DEMO EN VIVO</p>
+        <h1 data-i18n-html="h1">Lo que le hace la inferencia <em>a tu INP</em></h1>
+        <p class="sub" data-i18n="sub">Compara dónde corre el trabajo y observa el INP al escribir.</p>
       </div>
       <div class="art" id="art"></div>
     </header>
 
     <div class="main">
       <div class="left">
-        <div class="modes" role="group" aria-label="Modo de ejecución">
-          <button class="mode-btn active" data-mode="main" data-label="Main thread"><span class="radio"></span><span class="nm">Main thread</span><span class="ds">bloquea el hilo principal</span></button>
-          <button class="mode-btn" data-mode="chunk" data-label="Chunking"><span class="radio"></span><span class="nm">Chunking</span><span class="ds">cede el turno entre partes</span></button>
-          <button class="mode-btn" data-mode="worker" data-label="Web Worker"><span class="radio"></span><span class="nm">Web Worker</span><span class="ds">fuera del hilo principal</span></button>
+        <div class="modes" role="group" data-i18n-attr="aria-label:modes.aria" aria-label="Modo de ejecución">
+          <button class="mode-btn active" data-mode="main" data-label="Main thread"><span class="radio"></span><span class="nm">Main thread</span><span class="ds" data-i18n="ds.main">bloquea el hilo principal</span></button>
+          <button class="mode-btn" data-mode="chunk" data-label="Chunking"><span class="radio"></span><span class="nm">Chunking</span><span class="ds" data-i18n="ds.chunk">cede el turno entre partes</span></button>
+          <button class="mode-btn" data-mode="worker" data-label="Web Worker"><span class="radio"></span><span class="nm">Web Worker</span><span class="ds" data-i18n="ds.worker">fuera del hilo principal</span></button>
         </div>
         <div class="slider-row">
-          <label for="costSlider">COSTO POR TECLA</label>
+          <label for="costSlider" data-i18n="cost">COSTO POR TECLA</label>
           <input type="range" id="costSlider" min="20" max="400" step="10" value="150">
           <span class="slider-val" id="costVal">150ms</span>
         </div>
-        <div class="field-label">ESCRIBE AQUÍ</div>
-        <textarea id="typingField" placeholder="Escribe algo y siente la diferencia entre modos..."></textarea>
-        <button class="clear-btn" id="clearBtn">Limpiar</button>
+        <div class="field-label" data-i18n="field">ESCRIBE AQUÍ</div>
+        <textarea id="typingField" data-i18n-attr="placeholder:ph" placeholder="Escribe algo y siente la diferencia entre modos..."></textarea>
+        <button class="clear-btn" id="clearBtn" data-i18n="clear">Limpiar</button>
       </div>
 
       <div class="right">
@@ -231,22 +238,104 @@
           <div class="track-box"><div class="track-dot" id="trackDot"></div></div>
           <div class="fps"><span class="l">FPS</span><span id="fpsVal">60</span></div>
         </div>
-        <p class="hint">Si el punto se congela o salta, el main thread estuvo ocupado.</p>
+        <p class="hint" data-i18n="hint">Si el punto se congela o salta, el main thread estuvo ocupado.</p>
         <hr class="hr">
         <div class="metrics">
-          <div class="metric"><div class="label">ÚLTIMA</div><div class="value" id="lastVal">—</div></div>
-          <div class="metric"><div class="label">PROMEDIO</div><div class="value" id="avgVal">—</div></div>
-          <div class="metric"><div class="label">PEOR (p100)</div><div class="value" id="maxVal">—</div></div>
+          <div class="metric"><div class="label" data-i18n="m.last">ÚLTIMA</div><div class="value" id="lastVal">—</div></div>
+          <div class="metric"><div class="label" data-i18n="m.avg">PROMEDIO</div><div class="value" id="avgVal">—</div></div>
+          <div class="metric"><div class="label" data-i18n="m.worst">PEOR (p100)</div><div class="value" id="maxVal">—</div></div>
         </div>
         <hr class="hr">
         <div class="log" id="log"></div>
-        <button class="reset-btn" id="resetBtn">reiniciar métricas</button>
+        <button class="reset-btn" id="resetBtn" data-i18n="reset">reiniciar métricas</button>
       </div>
     </div>
   </div>
  </div>
 </div>
 
+<script>
+(function () {
+  var I18N = {
+  "es": {
+    "lang.aria": "Switch to English",
+    "lang.label": "EN",
+    "title": "Demo 1: INP en vivo",
+    "home": "← Inicio",
+    "eyebrow": "DEMO EN VIVO",
+    "h1": "Lo que le hace la inferencia <em>a tu INP</em>",
+    "sub": "Compara dónde corre el trabajo y observa el INP al escribir.",
+    "modes.aria": "Modo de ejecución",
+    "ds.main": "bloquea el hilo principal",
+    "ds.chunk": "cede el turno entre partes",
+    "ds.worker": "fuera del hilo principal",
+    "cost": "COSTO POR TECLA",
+    "field": "ESCRIBE AQUÍ",
+    "ph": "Escribe algo y siente la diferencia entre modos...",
+    "clear": "Limpiar",
+    "hint": "Si el punto se congela o salta, el main thread estuvo ocupado.",
+    "m.last": "ÚLTIMA",
+    "m.avg": "PROMEDIO",
+    "m.worst": "PEOR (p100)",
+    "reset": "reiniciar métricas",
+    "log.noapi": "Event Timing API no disponible en este navegador. Usa Chrome/Edge para ver latencias reales.",
+    "log.nopo": "Este navegador no soporta PerformanceObserver de eventos."
+  },
+  "en": {
+    "lang.aria": "Cambiar a español",
+    "lang.label": "ES",
+    "title": "Demo 1: Live INP",
+    "home": "← Home",
+    "eyebrow": "LIVE DEMO",
+    "h1": "What inference does <em>to your INP</em>",
+    "sub": "Compare where the work runs and watch the INP as you type.",
+    "modes.aria": "Execution mode",
+    "ds.main": "blocks the main thread",
+    "ds.chunk": "yields between chunks",
+    "ds.worker": "off the main thread",
+    "cost": "COST PER KEY",
+    "field": "TYPE HERE",
+    "ph": "Type something and feel the difference between modes...",
+    "clear": "Clear",
+    "hint": "If the dot freezes or jumps, the main thread was busy.",
+    "m.last": "LAST",
+    "m.avg": "AVERAGE",
+    "m.worst": "WORST (p100)",
+    "reset": "reset metrics",
+    "log.noapi": "Event Timing API is not available in this browser. Use Chrome or Edge to see real latencies.",
+    "log.nopo": "This browser does not support the event PerformanceObserver."
+  }
+};
+  var lang;
+  try { lang = localStorage.getItem('lang'); } catch (e) {}
+  if (lang !== 'es' && lang !== 'en') lang = /^en/i.test(navigator.language || '') ? 'en' : 'es';
+  var listeners = [];
+  function tFor(l, k) { var d = I18N[l] || I18N.es; return d[k] !== undefined ? d[k] : I18N.es[k]; }
+  function t(k) { return tFor(lang, k); }
+  function apply(l) {
+    lang = l;
+    document.documentElement.setAttribute('lang', l);
+    document.querySelectorAll('[data-i18n]').forEach(function (e) { e.textContent = t(e.getAttribute('data-i18n')); });
+    document.querySelectorAll('[data-i18n-html]').forEach(function (e) { e.innerHTML = t(e.getAttribute('data-i18n-html')); });
+    document.querySelectorAll('[data-i18n-attr]').forEach(function (e) {
+      e.getAttribute('data-i18n-attr').split(';').forEach(function (pair) {
+        var i = pair.indexOf(':'); e.setAttribute(pair.slice(0, i), t(pair.slice(i + 1)));
+      });
+    });
+    var b = document.getElementById('langBtn');
+    if (b) { b.textContent = t('lang.label'); b.setAttribute('aria-label', t('lang.aria')); }
+    listeners.forEach(function (fn) { fn(l); });
+  }
+  window.i18n = { t: t, tFor: tFor, lang: function () { return lang; }, onChange: function (fn) { listeners.push(fn); } };
+  var btn = document.getElementById('langBtn');
+  if (btn) btn.addEventListener('click', function () {
+    var next = lang === 'es' ? 'en' : 'es';
+    try { localStorage.setItem('lang', next); } catch (e) {}
+    apply(next);
+  });
+  apply(lang);
+})();
+</script>
 <script>
 (function () {
   "use strict";
@@ -446,10 +535,10 @@
       });
       po.observe({ type: 'event', durationThreshold: 16, buffered: true });
     } catch (err) {
-      logEl.textContent = 'Event Timing API no disponible en este navegador. Usa Chrome/Edge para ver latencias reales.';
+      logEl.setAttribute('data-i18n', 'log.noapi'); logEl.textContent = i18n.t('log.noapi');
     }
   } else {
-    logEl.textContent = 'Este navegador no soporta PerformanceObserver de eventos.';
+    logEl.setAttribute('data-i18n', 'log.nopo'); logEl.textContent = i18n.t('log.nopo');
   }
 
   function resetMetrics() {
@@ -458,6 +547,7 @@
     avgVal.textContent = '—'; avgVal.className = 'value';
     maxVal.textContent = '—'; maxVal.className = 'value';
     logEl.innerHTML = '';
+    logEl.removeAttribute('data-i18n');
   }
   document.getElementById('resetBtn').addEventListener('click', resetMetrics);
   document.getElementById('clearBtn').addEventListener('click', function () {
