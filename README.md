@@ -6,7 +6,7 @@ Demos for the talk **"IA en el client-side: el costo oculto en tu INP (y cómo e
 
 By **Leslie Herrera** · [linkedin.com/in/dereemii](https://linkedin.com/in/dereemii) · [@dereemii](https://x.com/dereemii)
 
-🇪🇸 [Leer en español](README.es.md)
+[Leer en español](README.es.md)
 
 **Live site:** https://dereemii.github.io/ia-client-side-inp/
 
