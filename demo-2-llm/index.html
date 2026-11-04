@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TCDQB252');</script>
+<!-- End Google Tag Manager -->
 <meta charset="UTF-8">
 <meta name="theme-color" content="#15172E">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -51,10 +58,9 @@
 
   .content { min-height: 0; display: grid; grid-template-rows: auto 1fr; gap: clamp(10px, 2vh, 22px); padding: clamp(10px, 2vh, 22px) clamp(18px, 2.4vw, 44px) clamp(12px, 2.4vh, 26px); }
   header { display: grid; grid-template-columns: 1fr clamp(120px, 20vw, 380px); gap: 24px; align-items: end; }
-  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: clamp(13px, 2vh, 22px); color: var(--accent-primary); letter-spacing: 2px; margin: 0 0 clamp(2px, 0.8vh, 8px); font-weight: 600; }
-  h1 { font-size: clamp(26px, 6vh, 68px); line-height: 1.05; margin: 0; font-weight: 700; letter-spacing: -0.5px; }
-  h1 em { font-style: normal; color: var(--accent-primary); }
-  .sub { color: var(--accent-purple); font-size: clamp(14px, 2.4vh, 28px); line-height: 1.35; margin: clamp(4px, 1vh, 12px) 0 0; }
+  h1 { font-size: clamp(26px, 6vh, 68px); line-height: 1.05; margin: 0; font-weight: 600; letter-spacing: -0.5px; }
+  h1 em { font-style: normal; color: #F2A0C4; }
+  .sub { color: var(--text-muted); font-size: clamp(14px, 2.4vh, 28px); line-height: 1.35; margin: clamp(4px, 1vh, 12px) 0 0; }
   .art { min-height: 1px; }
   .girl { position: absolute; right: clamp(16px, 2.6vw, 52px); top: 8vh; height: 19.5vh; width: auto; pointer-events: none; }
 
@@ -150,16 +156,18 @@
   .right .hr.m { margin: clamp(8px, 1.4vh, 16px) 0; }
 
   /* ---------- Versión móvil / responsive ---------- */
+  .mx-s { display: none; }
   @media (max-width: 820px) {
     html, body { height: auto; min-height: 100%; overflow-x: hidden; overflow-y: auto; -webkit-text-size-adjust: 100%; }
     .win { height: auto; min-height: 100vh; min-height: 100dvh; padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); }
     .frame { height: auto; min-height: calc(100dvh - 20px); display: block; }
     .hide-m, .tb-right .who, .ctl svg:not(:nth-child(2)) { display: none; }
+    .mx-l { display: none; }
+    .mx-s { display: inline; }
     .titlebar { padding: 12px 16px; font-size: 12px; letter-spacing: 2px; }
     .dots i { width: 14px; height: 14px; }
     .content { display: block; padding: 14px 16px 22px; }
     header { display: block; margin-bottom: 14px; }
-    .eyebrow { font-size: 14px; margin-bottom: 4px; }
     h1 { font-size: clamp(26px, 7.2vw, 34px); max-width: calc(100% - 41vw); }
     .sub { font-size: clamp(15px, 4.3vw, 19px); max-width: none; margin-top: 8px; }
     .model { font-size: 13px; margin-top: 10px; flex-wrap: wrap; gap: 10px; }
@@ -216,10 +224,14 @@
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TCDQB252"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <div class="win">
  <div class="frame">
   <div class="titlebar">
-    <div class="tb-left"><div class="dots"><i></i><i></i><i></i></div><span>JSConf MX<span class="hide-m"> · 29 Oct</span><span class="hide-s"> · Guadalajara</span></span></div>
+    <div class="tb-left"><div class="dots"><i></i><i></i><i></i></div><span>JSConf <span class="mx-l">México</span><span class="mx-s">MX</span> 2026</span></div>
     <button class="lang-btn" id="langBtn" type="button" aria-label="Switch to English">EN</button>
     <div class="tb-right"><a class="who" href="../#quien-soy">Leslie Herrera · Dereemii</a>
       <span class="ctl" aria-hidden="true">
@@ -234,7 +246,6 @@
     <header>
       <div>
         <a class="home" href="../" data-i18n="home">← Inicio</a>
-        <p class="eyebrow" data-i18n="eyebrow">DEMO EN VIVO</p>
         <h1 data-i18n-html="h1">Un LLM real, <em>corriendo en tu navegador</em></h1>
         <p class="sub" data-i18n="sub">Compara dónde corre la inferencia y mira si el punto se congela.</p>
         <p class="model"><span class="chip" data-i18n="chip">MODELO</span> distilgpt2 · Hugging Face<span class="hide-m" data-i18n="predicts"> · predice la siguiente palabra</span></p>
@@ -256,7 +267,7 @@
           <button class="ghost" id="warmupBtn" data-i18n="warmup">Preparar modelos</button>
           <button class="ghost" id="clearBtn" data-i18n="clear">Limpiar</button>
         </div>
-        <div class="status" id="statusLine">Listo. Elige un modo y presiona Generar.</div>
+        <div class="status" id="statusLine">Elige un modo y presiona Generar.</div>
       </div>
 
       <div class="right">
@@ -293,7 +304,6 @@
     "lang.label": "EN",
     "title": "Demo 2: LLM en el navegador",
     "home": "← Inicio",
-    "eyebrow": "DEMO EN VIVO",
     "h1": "Un LLM real, <em>corriendo en tu navegador</em>",
     "sub": "Compara dónde corre la inferencia y mira si el punto se congela.",
     "chip": "MODELO",
@@ -315,7 +325,7 @@
     "m.gen": "GENERACIÓN",
     "m.tps": "TOKENS / SEG",
     "badge.min": "· mín {n} fps",
-    "status.ready": "Listo. Elige un modo y presiona Generar.",
+    "status.ready": "Elige un modo y presiona Generar.",
     "status.generating": "Generando...",
     "status.preparing": "Preparando...",
     "status.done": "Listo.",
@@ -329,7 +339,6 @@
     "lang.label": "ES",
     "title": "Demo 2: LLM in the browser",
     "home": "← Home",
-    "eyebrow": "LIVE DEMO",
     "h1": "A real LLM, <em>running in your browser</em>",
     "sub": "Compare where inference runs and see whether the dot freezes.",
     "chip": "MODEL",
@@ -351,7 +360,7 @@
     "m.gen": "GENERATION",
     "m.tps": "TOKENS / SEC",
     "badge.min": "· min {n} fps",
-    "status.ready": "Ready. Pick a mode and press Generate.",
+    "status.ready": "Pick a mode and press Generate.",
     "status.generating": "Generating...",
     "status.preparing": "Preparing...",
     "status.done": "Done.",

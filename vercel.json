@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/inp", "destination": "/demo-1-inp/", "permanent": false },
+    { "source": "/llm", "destination": "/demo-2-llm/", "permanent": false }
+  ]
+}

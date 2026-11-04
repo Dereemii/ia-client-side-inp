@@ -1,6 +1,13 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="dark">
+<html lang="es">
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TCDQB252');</script>
+<!-- End Google Tag Manager -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title data-i18n="meta.title">IA en el client-side: el costo oculto en tu INP</title>
@@ -8,19 +15,20 @@
 <meta property="og:title" data-i18n-attr="content:meta.ogtitle" content="IA en el client-side: el costo oculto en tu INP (y cómo evitarlo)">
 <meta property="og:description" data-i18n-attr="content:meta.ogdesc" content="Dos demos en vivo, la charla y el código. JSConf México · Guadalajara.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://leslieherrera.dev/">
+<meta property="og:image" content="https://leslieherrera.dev/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Leslie Herrera, Frontend Software Engineer. Ilustración pixel art de Leslie con su laptop y su perrita.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://leslieherrera.dev/assets/og-image.png">
 <meta name="theme-color" content="#15172E">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 14'%3E%3Cpath fill='%23ec6fa7' d='M2 0h4v2h4V0h4v2h2v4h-2v2h-2v2h-2v2H8v2H6v-2H4v-2H2V8H0V2h2z'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
 <script>
-  // Aplica el tema guardado (o el del sistema) antes de pintar, para evitar parpadeos.
+  // Aplica el idioma guardado antes de pintar, para evitar parpadeos.
   (function () {
-    var t = null;
-    try { t = localStorage.getItem('theme'); } catch (e) {}
-    if (t !== 'light' && t !== 'dark') {
-      t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
-    }
-    document.documentElement.setAttribute('data-theme', t);
     var l = null;
     try { l = localStorage.getItem('lang'); } catch (e) {}
     if (l !== 'es' && l !== 'en') l = /^en/i.test(navigator.language || '') ? 'en' : 'es';
@@ -28,7 +36,7 @@
   })();
 </script>
 <style>
-  :root, :root[data-theme="dark"] {
+  :root {
     --bg: #15172E;
     --text: #FBF0E0;
     --muted: #ABA6D6;
@@ -39,26 +47,11 @@
     --line: #4A3F8F;
     --line-soft: #2F2C63;
     --on-accent: #15172E;
+    --hover-bg: rgba(236, 111, 167, 0.10); --hover-border: #F28BB8;
     --dot1: #EC6FA7; --dot2: #FBF0E0; --dot3: #9B87F5;
     --spark1: #9B87F5; --spark2: #F6C445;
     --glow: rgba(155, 135, 245, 0.12);
     color-scheme: dark;
-  }
-  :root[data-theme="light"] {
-    --bg: #FBF0E0;
-    --text: #241F3D;
-    --muted: #6B6690;
-    --sub: #5B5486;
-    --accent: #EC6FA7;
-    --accent-text: #C94B80;
-    --purple: #7A6BC9;
-    --line: #EBB7CF;
-    --line-soft: #F3D3E1;
-    --on-accent: #FFFFFF;
-    --dot1: #EC6FA7; --dot2: #9B87F5; --dot3: #F6C445;
-    --spark1: #EC6FA7; --spark2: #F6C445;
-    --glow: rgba(236, 111, 167, 0.08);
-    color-scheme: light;
   }
 
   * { box-sizing: border-box; }
@@ -76,12 +69,12 @@
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
 
   .page { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 0 32px; overflow-x: clip; }
-  .show-m, .eyebrow-m, .nav-theme, .br-m { display: none; }
+  .show-m, .eyebrow-m, .br-m { display: none; }
 
   /* ---------- Barra superior ---------- */
   .titlebar {
     position: relative; z-index: 10; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px;
-    padding: 22px 0 18px; border-bottom: 2px solid var(--line);
+    padding: 16px 0;
     font-family: 'JetBrains Mono', monospace; font-size: 15px; letter-spacing: 2px; text-transform: uppercase;
   }
   .brand { display: flex; align-items: center; gap: 14px; color: var(--accent-text); min-width: 0; }
@@ -100,14 +93,11 @@
   .nav a svg { width: 13px; height: 13px; margin-left: 4px; vertical-align: -1px; }
   .tools { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
   .icon-btn {
-    background: none; border: 2px solid var(--line); color: var(--accent-text); border-radius: 12px;
+    background: none; border: 1px solid var(--line); color: var(--accent-text); border-radius: 12px;
     width: 40px; height: 40px; display: grid; place-items: center; cursor: pointer; padding: 0;
   }
   .icon-btn:hover { border-color: var(--accent); }
   .icon-btn svg { width: 20px; height: 20px; }
-  #themeBtn .moon { display: none; }
-  :root[data-theme="light"] #themeBtn .sun { display: none; }
-  :root[data-theme="light"] #themeBtn .moon { display: block; }
   #menuBtn { display: none; }
 
   /* ---------- Hero ---------- */
@@ -115,68 +105,65 @@
   .hero {
     display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
     grid-template-areas: "head art" "text art"; column-gap: 24px; align-items: center;
-    padding: 36px 0 10px 64px; position: relative;
+    padding: 36px 0 24px; position: relative;
   }
-  .hero > .heart { position: absolute; left: 0; top: 30px; width: 40px; height: 36px; color: var(--accent); }
   .hero-head { grid-area: head; align-self: end; }
   .hero-text { grid-area: text; align-self: start; }
   .hero-art { grid-area: art; display: flex; justify-content: center; align-items: center; }
-  .hero-art img { width: min(100%, 540px); height: auto; display: block; }
+  .hero-art img { width: min(100%, 440px); height: auto; display: block; }
   h1 { margin: 0; font-size: clamp(40px, 4.8vw, 62px); line-height: 1.04; font-weight: 700; letter-spacing: -0.025em; color: var(--text); }
-  .hero-sub { margin: 14px 0 0; font-size: clamp(20px, 2vw, 26px); line-height: 1.25; font-weight: 600; color: var(--sub); }
+  .hero-sub { margin: 14px 0 0; font-size: clamp(20px, 2vw, 26px); line-height: 1.25; font-weight: 400; color: var(--sub); }
   .hero-sub em { font-style: normal; color: var(--accent-text); }
-  .lead { margin: 22px 0 0; font-size: 19px; line-height: 1.55; color: var(--muted); max-width: 46ch; }
   .btn {
     display: inline-flex; align-items: center; gap: 12px; margin-top: 24px; padding: 13px 30px; white-space: nowrap;
     border: 2px solid var(--accent); border-radius: 14px; background: transparent; color: var(--accent-text);
     font-family: 'IBM Plex Sans', sans-serif; font-size: 19px; font-weight: 600; text-decoration: none;
     transition: background 120ms ease, color 120ms ease;
   }
-  .btn:hover { background: var(--accent); color: var(--on-accent); }
+  .btn:hover { background: var(--hover-bg); border-color: var(--hover-border); }
   .btn svg { width: 18px; height: 18px; }
   .btns { display: flex; flex-wrap: wrap; align-items: center; column-gap: 14px; }
   .btn.ghost { border-color: var(--line); color: var(--text); }
   .btn.ghost:hover { border-color: var(--accent); background: transparent; color: var(--accent-text); }
   .lang-btn {
-    background: none; border: 2px solid var(--line); color: var(--accent-text); border-radius: 12px;
+    background: none; border: 1px solid var(--line); color: var(--accent-text); border-radius: 12px;
     height: 40px; min-width: 44px; padding: 0 10px; cursor: pointer;
     font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; letter-spacing: 1px;
   }
   .lang-btn:hover { border-color: var(--accent); }
-  .stack { margin: 18px 0 0; font-size: 14.5px; color: var(--muted); letter-spacing: 0.3px; }
   .sp { position: absolute; width: 22px; height: 22px; pointer-events: none; }
   .sp.p { color: var(--spark1); } .sp.g { color: var(--spark2); }
 
   /* ---------- Demos ---------- */
-  .demos { padding: 40px 0 8px; position: relative; }
-  .sec-head { display: flex; align-items: center; gap: 18px; margin-bottom: 30px; }
-  .sec-head .heart { width: 34px; height: 30px; color: var(--accent); flex: none; }
+  .demos { margin-top: 0; padding: 16px 0 8px; position: relative; }
+  .sec-head { display: flex; align-items: center; gap: 18px; margin-bottom: 34px; }
   .sec-head h2 { margin: 0; font-size: 34px; line-height: 1.1; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
-  .sec-head .rule { flex: 1; border-top: 2px solid var(--line); min-width: 20px; margin-left: 6px; }
+  .sec-head .rule { flex: 1; border-top: 1px solid var(--line); min-width: 20px; margin-left: 6px; }
   .sec-lead { display: none; margin: -6px 0 18px; font-size: 18px; color: var(--muted); }
   .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; padding: 0 16px; }
   .card { position: relative; display: block; text-decoration: none; padding: 4px 0; }
   .card-top { display: grid; grid-template-columns: auto 1fr; column-gap: 24px; }
   .num {
-    width: 72px; height: 72px; border: 3px solid var(--purple); border-radius: 14px; display: grid; place-items: center;
-    font-family: 'JetBrains Mono', monospace; font-size: 34px; font-weight: 700; color: var(--purple);
+    width: 72px; height: 72px; border: 2px solid var(--purple); border-radius: 14px; display: grid; place-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 34px; font-weight: 500; color: var(--purple);
   }
-  .card.pink .num { border-color: var(--accent); color: var(--accent-text); }
   .kicker { font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--purple); }
   .card.pink .kicker { color: var(--accent-text); }
   .card h3 { margin: 2px 0 8px; font-size: 28px; line-height: 1.15; font-weight: 700; letter-spacing: -0.01em; transition: color 120ms ease; }
   .card:hover h3 { color: var(--accent-text); }
   .card p { margin: 0; font-size: 18px; line-height: 1.5; color: var(--muted); }
   .card .modes {
-    margin: 18px 0 0 96px; padding-top: 14px; border-top: 1px solid var(--line);
-    font-family: 'JetBrains Mono', monospace; font-size: 14.5px; color: var(--muted);
+    margin: 16px 0 0 96px; padding-top: 0; border-top: 0;
+    font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--muted); opacity: .65;
   }
-  .card .modes b { color: var(--muted); font-weight: 400; margin: 0 10px; }
-  .go { margin: 12px 0 0 96px; display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: 19px; color: var(--accent-text); }
+  .card .modes b { color: var(--muted); font-weight: 400; margin: 0 8px; }
+  .go { margin: 22px 0 0 96px; display: inline-flex; align-items: center; gap: 10px; padding: 11px 22px; border: 2px solid var(--accent); border-radius: 14px; font-weight: 600; font-size: 18px; color: var(--accent-text); transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease; }
+  .card:hover .go, .card:focus-visible .go { background: var(--hover-bg); border-color: var(--hover-border); transform: translateY(-1px); }
+  .card:active .go { transform: translateY(0); }
   .go svg { width: 18px; height: 18px; transition: transform 120ms ease; }
   .card:hover .go svg { transform: translate(3px, -3px); }
-  .note { margin: 12px 0 0 96px; display: flex; align-items: flex-start; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted); line-height: 1.45; }
-  .note svg { width: 18px; height: 18px; flex: none; color: var(--purple); margin-top: 1px; }
+  .note { margin: 12px 0 0 96px; display: flex; align-items: flex-start; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--muted); line-height: 1.45; opacity: .8; }
+  .note svg { width: 16px; height: 16px; flex: none; color: var(--muted); margin-top: 1px; }
 
   /* ---------- Frase ---------- */
   .quote { margin: 52px 16px 30px; display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; }
@@ -189,7 +176,7 @@
 
   /* ---------- Quién soy ---------- */
   .about {
-    margin-top: 8px; padding: 28px 0 40px; border-top: 2px solid var(--line);
+    margin-top: 8px; padding: 28px 0 40px; border-top: 1px solid var(--line);
     display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.3fr); align-items: center; row-gap: 26px;
   }
   .about .pic { width: 150px; margin-right: 24px; display: block; }
@@ -218,55 +205,50 @@
   /* ---------- Móvil ---------- */
   @media (max-width: 920px) {
     .page { padding: 0 18px; }
-    .titlebar { grid-template-columns: 1fr auto; padding: 16px 0 14px; font-size: 12px; letter-spacing: 1px; }
+    .titlebar { grid-template-columns: 1fr auto; padding: 16px 0 14px; font-size: 12px; letter-spacing: 1px; border-bottom: 1px solid var(--line); }
     .dots i { width: 15px; height: 15px; }
     .hide-m { display: none; }
     .show-m { display: inline; }
     .nav {
       display: none; position: absolute; left: -18px; right: -18px; top: 100%; z-index: 20; flex-direction: column; align-items: stretch; gap: 0;
-      background: var(--bg); border-bottom: 2px solid var(--line);
+      background: var(--bg); border-bottom: 1px solid var(--line);
     }
     .titlebar.open .nav { display: flex; }
     .nav a { padding: 16px 20px; font-size: 18px; border-bottom: 1px solid var(--line-soft); }
-    .nav-theme { display: block; text-align: left; background: none; border: 0; padding: 16px 20px; font: inherit; font-size: 16px; color: var(--muted); cursor: pointer; }
-    #themeBtn { display: none; }
     #menuBtn { display: grid; }
     .sp { display: none; }
 
     .hero {
-      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); grid-template-areas: "head head" "text art";
+      grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "text" "art";
       padding: 22px 0 6px; column-gap: 10px;
     }
-    .hero > .heart { display: none; }
-    .eyebrow-m { display: block; margin: 0 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-text); }
-    .br-m { display: inline; }
-    h1 { font-size: clamp(42px, 13.2vw, 72px); white-space: nowrap; line-height: 1.02; }
-    .hero-sub { font-size: clamp(19px, 5.6vw, 26px); }
-    .lead { font-size: 16.5px; max-width: none; margin-top: 12px; }
-    .hero-art { align-self: start; margin: 18px -6px 0 0; }
-    .hero-art img { width: 116%; max-width: none; margin-left: -4%; }
-    .stack { display: none; }
+    .eyebrow-m { display: none; margin: 0 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-text); }
+    .br-m { display: none; }
+    h1 { font-size: clamp(24px, 10vw, 56px); white-space: nowrap; line-height: 1.02; }
+    .hero-sub { font-size: clamp(17px, 4.8vw, 22px); }
+    .hero-art { margin: 22px 0 0; }
+    .hero-art img { width: min(88%, 340px); }
     .btn { margin-top: 18px; padding: 12px 22px; font-size: 18px; }
-    .btns { display: grid; width: max-content; max-width: 100%; justify-items: stretch; }
+    .btns { display: grid; width: max-content; max-width: 100%; justify-items: stretch; margin: 0 auto; }
     .btns .btn { justify-content: center; }
     .btn.ghost { margin-top: 12px; }
 
-    .demos { padding: 30px 0 6px; }
-    .sec-head { margin-bottom: 8px; }
-    .sec-head .heart, .sec-head .rule { display: none; }
-    .sec-head h2 { font-size: 32px; }
-    .sec-lead { display: block; margin-bottom: 22px; }
+    .demos { padding: 40px 0 6px; }
+    .sec-head { margin-bottom: 8px; gap: 14px; }
+    .sec-head h2 { font-size: 28px; }
+    .sec-lead { display: none; }
     .cards { grid-template-columns: 1fr; gap: 14px; }
+    .card:first-child { border-top: 0; padding-top: 8px; }
     .card { padding: 16px 0 0; border-top: 1px solid var(--line); }
     .card-top { column-gap: 16px; }
-    .num { width: 56px; height: 56px; font-size: 26px; border-width: 2.5px; border-radius: 12px; }
+    .num { width: 56px; height: 56px; font-size: 26px; border-width: 2px; border-radius: 12px; }
     .card h3 { font-size: 24px; }
     .card p { display: none; }
     .card .modes, .go, .note { margin-left: 72px; }
-    .card .modes { margin-top: 10px; padding-top: 0; border-top: 0; font-size: 15px; font-family: 'IBM Plex Sans', sans-serif; }
-    .card .modes b { margin: 0 6px; }
-    .go { margin-top: 10px; margin-bottom: 14px; }
-    .card .note.in-card { margin: 14px 0 0; padding: 12px 16px; border: 1px solid var(--line); border-radius: 14px; font-family: 'IBM Plex Sans', sans-serif; font-size: 14.5px; }
+    .card .modes { display: none; }
+    .go { margin-top: 12px; margin-bottom: 8px; padding: 9px 18px; font-size: 16px; }
+    .card .note.in-card { margin: 0 0 16px 72px; padding: 0; border: 0; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; line-height: 1.45; }
+    .card .note.in-card svg { width: 16px; height: 16px; }
 
     .quote { margin: 30px 0 22px; flex-direction: column; align-items: flex-start; gap: 14px; }
     .quote .text { padding-left: 34px; }
@@ -288,37 +270,40 @@
     .links svg { width: 20px; height: 20px; }
   }
   @media (max-width: 440px) { .hide-s { display: none; } }
+  @media (max-width: 1000px) { .brand .yr { display: none; } }
   @media (max-width: 380px) {
     .brand span { letter-spacing: 0.5px; }
   }
-  /* ---------- Guiños pixelados al pasar el mouse ---------- */
-  .go::after {
-    content: ''; width: 16px; height: 14px; margin-left: 2px; background: var(--accent); opacity: 0; flex: none;
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 14'%3E%3Cpath d='M2 0h4v2h4V0h4v2h2v4h-2v2h-2v2h-2v2H8v2H6v-2H4v-2H2V8H0V2h2z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 14'%3E%3Cpath d='M2 0h4v2h4V0h4v2h2v4h-2v2h-2v2h-2v2H8v2H6v-2H4v-2H2V8H0V2h2z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  @media (max-width: 340px) {
+    .titlebar { font-size: 11px; gap: 10px; }
+    .brand { gap: 9px; }
+    .brand .dots { transform: scale(.85); transform-origin: left center; margin-right: -4px; }
   }
-  @keyframes px-bob { 0% { transform: translateY(0); } 100% { transform: translateY(-4px); } }
+  /* ---------- Guiños pixelados al pasar el mouse ---------- */
   @media (hover: hover) {
     .btn, .lang-btn, .icon-btn, .num { transition: transform 90ms steps(2, end), box-shadow 90ms steps(2, end), background 120ms ease, color 120ms ease, border-color 120ms ease; }
-    .btn:hover, .lang-btn:hover, .icon-btn:hover { transform: translate(-3px, -3px); box-shadow: 3px 3px 0 var(--accent); }
-    .btn:not(.ghost):hover { box-shadow: 3px 3px 0 var(--purple); }
-    .btn:active, .lang-btn:active, .icon-btn:active { transform: translate(0, 0); box-shadow: 0 0 0 var(--accent); }
-    .card:hover .num { transform: translate(-3px, -3px); box-shadow: 3px 3px 0 var(--purple); }
-    .card.pink:hover .num { box-shadow: 3px 3px 0 var(--accent); }
+    .btn { transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .lang-btn:hover, .icon-btn:hover { transform: translate(2px, 2px); box-shadow: inset 3px 3px 0 var(--accent); }
+    .lang-btn:active, .icon-btn:active { transform: translate(3px, 3px); box-shadow: inset 4px 4px 0 var(--accent); }
+    .card:hover .num { transform: translate(2px, 2px); box-shadow: inset 3px 3px 0 var(--purple); }
     .card:hover .go svg { transition: transform 90ms steps(2, end); }
-    .card:hover .go::after { opacity: 1; animation: px-bob 600ms steps(2, jump-none) infinite alternate; }
     .links a svg { transition: transform 90ms steps(2, end); }
     .links a:hover svg { transform: translateY(-3px); }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .btn, .lang-btn, .icon-btn, .num, .card h3, .go svg, .links a svg { transition: none; }
-    .btn:hover, .lang-btn:hover, .icon-btn:hover, .card:hover .num, .links a:hover svg { transform: none; }
-    .card:hover .go::after { animation: none; }
+    .btn:hover, .lang-btn:hover, .icon-btn:hover, .card:hover .num, .links a:hover svg, .card:hover .go { transform: none; }
   }
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TCDQB252"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <symbol id="heart" viewBox="0 0 16 14"><path d="M2 0h4v2h4V0h4v2h2v4h-2v2h-2v2h-2v2H8v2H6v-2H4v-2H2V8H0V2h2z" fill="none" stroke="currentColor" stroke-width="1.6" vector-effect="non-scaling-stroke" shape-rendering="crispEdges"/></symbol>
@@ -333,42 +318,34 @@
     <symbol id="gh" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.160 19.490c.5.090.68-.22.68-.48v-1.700c-2.780.6-3.370-1.340-3.370-1.340-.45-1.160-1.110-1.470-1.110-1.470-.91-.62.070-.61.070-.61 1 .07 1.530 1.030 1.530 1.030.89 1.530 2.340 1.090 2.910.83.09-.65.35-1.090.63-1.340-2.220-.25-4.560-1.110-4.560-4.950 0-1.090.39-1.990 1.030-2.690-.1-.25-.45-1.270.1-2.650 0 0 .84-.27 2.750 1.020a9.500 9.500 0 0 1 5 0c1.910-1.290 2.750-1.020 2.750-1.020.55 1.380.2 2.400.1 2.650.64.700 1.030 1.600 1.030 2.690 0 3.850-2.340 4.690-4.570 4.940.36.310.68.920.68 1.850v2.740c0 .27.18.58.69.48A10 10 0 0 0 12 2z" fill="currentColor"/></symbol>
     <symbol id="ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.200" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.300" cy="6.700" r="1.300" fill="currentColor"/></symbol>
     <symbol id="mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.500" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 7.500l8 6 8-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v2.4M12 19.100v2.400M2.500 12h2.400M19.100 12h2.400M5.300 5.300L7 7M17 17l1.700 1.700M5.300 18.700L7 17M17 7l1.700-1.700" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="moon" viewBox="0 0 24 24"><path d="M20 14.500A8 8 0 0 1 9.500 4 8 8 0 1 0 20 14.500z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
     <symbol id="menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
   </defs>
 </svg>
 <div class="page">
   <header class="titlebar" id="titlebar">
-    <div class="brand"><div class="dots" aria-hidden="true"><i></i><i></i><i></i></div><span>JSConf <span class="hide-m">México</span><span class="show-m">MX</span><span class="hide-s"> · Guadalajara</span></span></div>
+    <div class="brand"><div class="dots" aria-hidden="true"><i></i><i></i><i></i></div><span>JSConf <span class="hide-m">México<span class="yr"> 2026</span></span><span class="show-m">MX 2026</span></span></div>
     <nav class="nav" id="nav" data-i18n-attr="aria-label:nav.aria" aria-label="Principal">
       <a href="#demos" class="active">Demos</a>
       <a href="#quien-soy" data-i18n="nav.about">Quién soy</a>
       <a href="charla/ia-client-side-inp.pdf" target="_blank" rel="noopener"><span data-i18n="nav.talk">Charla</span><svg aria-hidden="true"><use href="#ext"/></svg></a>
-      <button class="nav-theme js-theme" type="button" data-i18n="theme.nav">Cambiar tema claro / oscuro</button>
     </nav>
     <div class="tools">
       <button class="lang-btn" id="langBtn" type="button" aria-label="Switch to English">EN</button>
-      <button class="icon-btn js-theme" id="themeBtn" type="button" data-i18n-attr="aria-label:theme.aria" aria-label="Cambiar entre tema claro y oscuro"><svg class="sun" aria-hidden="true"><use href="#sun"/></svg><svg class="moon" aria-hidden="true"><use href="#moon"/></svg></button>
       <button class="icon-btn" id="menuBtn" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><svg aria-hidden="true"><use href="#menu"/></svg></button>
     </div>
   </header>
 
   <main>
     <section class="hero" id="top">
-      <svg class="heart" aria-hidden="true"><use href="#heart"/></svg>
       <div class="hero-head">
         <p class="eyebrow-m" data-i18n="hero.date">29 y 30 de octubre · Guadalajara</p>
         <h1 data-i18n-html="hero.h1">IA en el<br class="br-m"> client-side</h1>
         <p class="hero-sub" data-i18n-html="hero.sub">El costo oculto en tu INP <em>(y cómo evitarlo)</em></p>
       </div>
       <div class="hero-text">
-        <p class="lead"><span class="hide-m" data-i18n="hero.lead.d">Explora dos demos en vivo, compara enfoques y descubre cómo llevar la IA al navegador sin sacrificar la experiencia.</span><span class="show-m" data-i18n="hero.lead.m">Explora las demos de la charla y descubre cómo llevar la IA al navegador sin sacrificar la experiencia.</span></p>
         <div class="btns">
-          <a class="btn" href="#demos"><span data-i18n="hero.cta">Explorar demos</span> <svg aria-hidden="true"><use href="#arrow-down"/></svg></a>
-          <a class="btn ghost" href="charla/ia-client-side-inp.pdf" target="_blank" rel="noopener"><span data-i18n="hero.pdf">Ir a la presentación</span> <svg aria-hidden="true"><use href="#ext"/></svg></a>
+          <a class="btn" href="charla/ia-client-side-inp.pdf" target="_blank" rel="noopener"><span data-i18n="hero.pdf">Ir a la presentación</span> <svg aria-hidden="true"><use href="#ext"/></svg></a>
         </div>
-        <p class="stack mono">Web Workers &nbsp;·&nbsp; WebGPU &nbsp;·&nbsp; Chunking &nbsp;·&nbsp; Streaming</p>
       </div>
       <div class="hero-art">
         <img src="assets/chica-lana.webp" width="1400" height="716" data-i18n-attr="alt:hero.alt" alt="Ilustración pixel art de Leslie escribiendo en su laptop junto a su perrita y un ovillo de lana morado">
@@ -376,11 +353,8 @@
     </section>
 
     <section class="demos" id="demos" aria-labelledby="demos-title">
-      <svg class="sp p" style="left:-26px;top:150px" aria-hidden="true"><use href="#plus"/></svg>
-      <svg class="sp p" style="left:-8px;top:196px;width:16px;height:16px" aria-hidden="true"><use href="#plus"/></svg>
       <div class="sec-head">
-        <svg class="heart" aria-hidden="true"><use href="#heart"/></svg>
-        <h2 id="demos-title" data-i18n="demos.title">Elige una demo.</h2>
+        <h2 id="demos-title" data-i18n="demos.title">Demos</h2>
         <span class="rule" aria-hidden="true"></span>
       </div>
       <p class="sec-lead" data-i18n="demos.lead">Explora cómo la IA puede afectar el rendimiento de tu interfaz y qué podemos hacer al respecto.</p>
@@ -390,28 +364,25 @@
           <div class="card-top">
             <div class="num" aria-hidden="true">01</div>
             <div>
-              <div class="kicker">Demo 01</div>
               <h3 data-i18n="d1.title">La inferencia y tu INP</h3>
-              <p data-i18n="d1.text">Compara dónde corre el trabajo y observa el impacto en el INP al escribir.</p>
+              <p data-i18n="d1.text">Compara dónde corre el trabajo y mide el INP.</p>
             </div>
           </div>
           <div class="modes">Main thread<b>·</b>Chunking<b>·</b>Web Worker</div>
           <span class="go"><span data-i18n="card.go">Ver demo</span> <svg aria-hidden="true"><use href="#ext"/></svg></span>
-          <div class="note in-card"><svg aria-hidden="true"><use href="#info"/></svg><span data-i18n="d1.note.in">Mide el INP con la Event Timing API del navegador.</span></div>
         </a>
 
         <a class="card pink" href="demo-2-llm/">
           <div class="card-top">
             <div class="num" aria-hidden="true">02</div>
             <div>
-              <div class="kicker">Demo 02</div>
               <h3 data-i18n="d2.title">Un LLM en tu navegador</h3>
-              <p data-i18n="d2.text">Carga un modelo real en el navegador y compara el rendimiento entre enfoques.</p>
+              <p data-i18n="d2.text">Corre un modelo real en tu navegador.</p>
             </div>
           </div>
           <div class="modes">Main thread<b>·</b>WASM<b>·</b>WebGPU</div>
           <span class="go"><span data-i18n="card.go">Ver demo</span> <svg aria-hidden="true"><use href="#ext"/></svg></span>
-          <div class="note in-card"><svg aria-hidden="true"><use href="#info"/></svg><span data-i18n="d2.note.in">Descarga el modelo desde Hugging Face (~85 MB con WASM, ~330 MB con WebGPU).</span></div>
+          <div class="note in-card"><svg aria-hidden="true"><use href="#info"/></svg><span data-i18n="d2.note.in">Descarga un modelo (~85–330 MB).</span></div>
         </a>
       </div>
     </section>
@@ -448,18 +419,6 @@
 <script>
   (function () {
     var root = document.documentElement;
-    var themeBtn = document.getElementById('themeBtn');
-    var meta = document.querySelector('meta[name="theme-color"]');
-    function syncMeta() { if (meta) meta.setAttribute('content', root.getAttribute('data-theme') === 'light' ? '#FBF0E0' : '#15172E'); }
-    syncMeta();
-    function toggleTheme() {
-      var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem('theme', next); } catch (e) {}
-      syncMeta();
-    }
-    document.querySelectorAll('.js-theme').forEach(function (b) { b.addEventListener('click', toggleTheme); });
-
     var bar = document.getElementById('titlebar');
     var menuBtn = document.getElementById('menuBtn');
     function setMenu(open) {
@@ -478,23 +437,19 @@
         'meta.ogtitle': 'IA en el client-side: el costo oculto en tu INP (y cómo evitarlo)',
         'meta.ogdesc': 'Dos demos en vivo, la charla y el código. JSConf México · Guadalajara.',
         'nav.aria': 'Principal', 'nav.about': 'Quién soy', 'nav.talk': 'Charla',
-        'theme.nav': 'Cambiar tema claro / oscuro', 'theme.aria': 'Cambiar entre tema claro y oscuro',
         'menu.open': 'Abrir menú', 'menu.close': 'Cerrar menú',
         'lang.aria': 'Switch to English', 'lang.label': 'EN',
         'hero.date': '29 y 30 de octubre · Guadalajara',
         'hero.h1': 'IA en el<br class="br-m"> client-side',
         'hero.sub': 'El costo oculto en tu INP <em>(y cómo evitarlo)</em>',
-        'hero.lead.d': 'Explora dos demos en vivo, compara enfoques y descubre cómo llevar la IA al navegador sin sacrificar la experiencia.',
-        'hero.lead.m': 'Explora las demos de la charla y descubre cómo llevar la IA al navegador sin sacrificar la experiencia.',
-        'hero.cta': 'Explorar demos', 'hero.pdf': 'Ir a la presentación',
+        'hero.pdf': 'Ir a la presentación',
         'hero.alt': 'Ilustración pixel art de Leslie escribiendo en su laptop junto a su perrita y un ovillo de lana morado',
-        'demos.title': 'Elige una demo.',
+        'demos.title': 'Demos',
         'demos.lead': 'Explora cómo la IA puede afectar el rendimiento de tu interfaz y qué podemos hacer al respecto.',
-        'd1.title': 'La inferencia y tu INP', 'd1.text': 'Compara dónde corre el trabajo y observa el impacto en el INP al escribir.',
-        'd2.title': 'Un LLM en tu navegador', 'd2.text': 'Carga un modelo real en el navegador y compara el rendimiento entre enfoques.',
+        'd1.title': 'La inferencia y tu INP', 'd1.text': 'Compara dónde corre el trabajo y mide el INP.',
+        'd2.title': 'Un LLM en tu navegador', 'd2.text': 'Corre un modelo real en tu navegador.',
         'card.go': 'Ver demo',
-        'd1.note.in': 'Mide el INP con la Event Timing API del navegador.',
-        'd2.note.in': 'Descarga el modelo desde Hugging Face (~85 MB con WASM, ~330 MB con WebGPU).',
+        'd2.note.in': 'Descarga un modelo (~85–330 MB).',
         'quote.aria': 'Frase de la charla', 'quote.text': 'En performance, cada interacción cuenta: hay un usuario esperando.',
         'about.alt': 'Ilustración pixel art de Leslie con audífonos, su laptop y su perrita',
         'links.aria': 'Redes y contacto', 'links.lead': 'Encuéntrame como', 'links.on': 'en',
@@ -506,23 +461,19 @@
         'meta.ogtitle': 'AI on the client side: the hidden cost to your INP (and how to avoid it)',
         'meta.ogdesc': 'Two live demos, the talk and the code. JSConf México · Guadalajara.',
         'nav.aria': 'Main', 'nav.about': 'About me', 'nav.talk': 'Slides',
-        'theme.nav': 'Switch light / dark theme', 'theme.aria': 'Switch between light and dark theme',
         'menu.open': 'Open menu', 'menu.close': 'Close menu',
         'lang.aria': 'Cambiar a español', 'lang.label': 'ES',
         'hero.date': 'October 29–30 · Guadalajara',
         'hero.h1': 'AI on the<br class="br-m"> client side',
         'hero.sub': 'The hidden cost to your INP <em>(and how to avoid it)</em>',
-        'hero.lead.d': 'Explore two live demos, compare approaches and learn how to bring AI to the browser without sacrificing the experience.',
-        'hero.lead.m': 'Explore the talk’s demos and learn how to bring AI to the browser without sacrificing the experience.',
-        'hero.cta': 'Explore demos', 'hero.pdf': 'Go to the slides',
+        'hero.pdf': 'Go to the slides',
         'hero.alt': 'Pixel art illustration of Leslie typing on her laptop next to her dog and a purple ball of yarn',
-        'demos.title': 'Pick a demo.',
+        'demos.title': 'Demos',
         'demos.lead': 'Explore how AI can affect your interface’s performance and what we can do about it.',
-        'd1.title': 'Inference and your INP', 'd1.text': 'Compare where the work runs and watch the impact on INP as you type.',
-        'd2.title': 'An LLM in your browser', 'd2.text': 'Load a real model in the browser and compare performance across approaches.',
+        'd1.title': 'Inference and your INP', 'd1.text': 'Compare where the work runs and measure INP.',
+        'd2.title': 'An LLM in your browser', 'd2.text': 'Run a real model in your browser.',
         'card.go': 'Open demo',
-        'd1.note.in': 'Measures INP with the browser’s Event Timing API.',
-        'd2.note.in': 'Downloads the model from Hugging Face (~85 MB with WASM, ~330 MB with WebGPU).',
+        'd2.note.in': 'Downloads a model (~85–330 MB).',
         'quote.aria': 'Quote from the talk', 'quote.text': 'In performance, every interaction counts: there’s a user waiting.',
         'about.alt': 'Pixel art illustration of Leslie with headphones, her laptop and her dog',
         'links.aria': 'Social links and contact', 'links.lead': 'Find me as', 'links.on': 'on',

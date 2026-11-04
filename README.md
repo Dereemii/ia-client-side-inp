@@ -8,7 +8,7 @@ By **Leslie Herrera** · [linkedin.com/in/dereemii](https://linkedin.com/in/dere
 
 [Leer en español](README.es.md)
 
-**Live site:** https://dereemii.github.io/ia-client-side-inp/
+**Live site:** https://ia-client-side-inp.vercel.app/
 
 ## What's here
 
